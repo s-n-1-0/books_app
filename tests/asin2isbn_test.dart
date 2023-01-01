@@ -1,6 +1,6 @@
-import 'package:app/utils/asin2isbn/asin2isbn.dart';
-import 'package:app/utils/asin2isbn/isbn.dart';
-import 'package:app/utils/asin2isbn/url2.dart';
+import '../libs/utils/asin2isbn/asin2isbn.dart';
+import '../libs/utils/asin2isbn/isbn.dart';
+import '../libs/utils/asin2isbn/url2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
