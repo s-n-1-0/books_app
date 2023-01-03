@@ -44,6 +44,12 @@ class GoogleBooksApiBookDataInfo {
         il == null ? null : GoogleBooksApiBookDataInfoImageLinks.fromJson(il);
     description = json["description"];
   }
+  List<GoogleBooksApiBookDataIndustryIdentifier> getIsbn(String type) {
+    return industryIdentifiers.where((item) => item.type == type).toList();
+  }
+
+  String? get isbn10 => getIsbn("ISBN_10").firstOrNull?.identifier;
+  String? get isbn13 => getIsbn("ISBN_13").firstOrNull?.identifier;
 }
 
 class GoogleBooksApiBookData {

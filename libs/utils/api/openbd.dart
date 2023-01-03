@@ -43,6 +43,8 @@ class OpenBdBookDataSummary {
     pubdate = json["pubdate"];
     cover = json["cover"];
   }
+  String? get isbn13 => isbn.length == 13 ? isbn : null;
+  String? get isbn10 => isbn.length == 10 ? isbn : null;
 }
 
 class OpenBdGetResponseBookData {
