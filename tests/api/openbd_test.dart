@@ -13,7 +13,7 @@ void main() {
 
     //summary
     final summary = bookData.summary;
-    expect(summary.isbn, "9784799215661");
+    expect(summary.isbn13, "9784799215661");
     expect(summary.title, "根津さんの恩返し　１");
     expect(summary.volume, "");
     expect(summary.series, "");

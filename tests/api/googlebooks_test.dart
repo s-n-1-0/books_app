@@ -12,8 +12,8 @@ void main() {
     expect(info.title, "根津さんの恩返し 1");
     expect(info.authors[0], "ハマサキ");
     expect(info.publisher, null);
-    expect(info.industryIdentifiers[0].type, "ISBN_10");
-    expect(info.industryIdentifiers[0].identifier, "4799215663");
+    expect(info.isbn10, "4799215663");
+    expect(info.isbn13, "9784799215661");
     expect(info.imageLinks, null);
     expect(info.description, "【コミュ障OL×お助けネズミ】による1人と1匹のコミュ障克服を目指す日常コメディ!");
     //実行のみテスト
