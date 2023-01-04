@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'share_page.dart';
+import 'title_search_page.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -10,6 +11,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   String editIsbn = "";
+  String editTitle = "";
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -85,13 +87,41 @@ class _SearchPageState extends State<SearchPage> {
                             "タイトルで調べる",
                             style: textTheme.subtitle1,
                           ),
-                          const TextField(
-                              decoration: InputDecoration(
-                            hintText: "この素晴らしい...",
-                            isDense: true,
-                          )),
+                          TextField(
+                            decoration: const InputDecoration(
+                              hintText: "この素晴らしい...",
+                              isDense: true,
+                            ),
+                            onChanged: (text) => {
+                              setState(() {
+                                editTitle = text;
+                              })
+                            },
+                          ),
                           Text("タイトル検索で書籍が見つからない場合はISBN検索をお試しください。",
-                              style: textTheme.caption)
+                              style: textTheme.caption),
+                          (() {
+                            if (editTitle != "") {
+                              return Align(
+                                  alignment: Alignment.topRight,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  SearchResultsPage(
+                                                      query:
+                                                          ShareBooksSearchQuery(
+                                                              title:
+                                                                  editTitle))));
+                                    },
+                                    child: const Text("検索"),
+                                  ));
+                            } else {
+                              return const SizedBox();
+                            }
+                          })()
                         ])),
                 Padding(
                     padding: const EdgeInsets.only(bottom: 15),
