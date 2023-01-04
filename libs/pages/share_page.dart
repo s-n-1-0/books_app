@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -24,8 +23,8 @@ class ShareBooksShareQuery {
 }
 
 class SharePage extends StatelessWidget {
-  SharePage({super.key, required this.query});
-  ShareBooksShareQuery query;
+  const SharePage({super.key, required this.query});
+  final ShareBooksShareQuery query;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
