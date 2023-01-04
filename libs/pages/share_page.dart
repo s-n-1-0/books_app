@@ -15,8 +15,8 @@ class ShareBooksShareQuery {
 
   final String _sharePageUrl = "https://books.sn-10.net/ja/share";
   String getBookDataUrl() {
-    var url = "$_sharePageUrl?";
-    url += "isbn=${Uri.encodeFull(isbn)}";
+    var url = "$_sharePageUrl?noheader";
+    url += "&isbn=${Uri.encodeFull(isbn)}";
     if (from != "") url += "&from=${Uri.encodeFull(from)}";
     if (comment != "") url += "&comment=${Uri.encodeComponent(comment)}";
     return url;
