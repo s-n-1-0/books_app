@@ -60,23 +60,14 @@ class _SearchPageState extends State<SearchPage> {
                                   alignment: Alignment.topRight,
                                   child: ElevatedButton(
                                     onPressed: () {
-                                      showBottomSheet(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return Container(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.95,
-                                              child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                  child: SharePage(
-                                                    query: ShareBooksShareQuery(
-                                                        isbn: editIsbn),
-                                                  )));
-                                        },
-                                      );
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => SharePage(
+                                              query: ShareBooksShareQuery(
+                                                  isbn: editIsbn),
+                                            ),
+                                          ));
                                     },
                                     child: const Text("検索"),
                                   ));

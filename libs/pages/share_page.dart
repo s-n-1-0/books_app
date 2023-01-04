@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+
+import '../components/common_webview.dart';
 
 class ShareBooksShareQuery {
   String isbn;
@@ -28,10 +29,6 @@ class SharePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: WebView(
-        initialUrl: query.getBookDataUrl(),
-        javascriptMode: JavascriptMode.unrestricted,
-      ),
-    );
+        appBar: AppBar(), body: CommonWebView(query.getBookDataUrl()));
   }
 }
