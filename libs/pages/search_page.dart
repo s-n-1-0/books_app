@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 
-class SearchPage extends StatelessWidget {
-  const SearchPage({super.key});
+import 'share_page.dart';
 
+class SearchPage extends StatefulWidget {
+  const SearchPage({super.key});
+  @override
+  State<SearchPage> createState() => _SearchPageState();
+}
+
+class _SearchPageState extends State<SearchPage> {
+  String editIsbn = "";
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -36,12 +43,47 @@ class SearchPage extends StatelessWidget {
                             "ISBNで共有",
                             style: textTheme.subtitle1,
                           ),
-                          const TextField(
+                          TextField(
                               keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 hintText: "9784798056920",
                                 isDense: true,
-                              ))
+                              ),
+                              onChanged: (text) {
+                                setState(() {
+                                  editIsbn = text;
+                                });
+                              }),
+                          (() {
+                            if (editIsbn != "") {
+                              return Align(
+                                  alignment: Alignment.topRight,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      showBottomSheet(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.95,
+                                              child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                  child: SharePage(
+                                                    query: ShareBooksShareQuery(
+                                                        isbn: editIsbn),
+                                                  )));
+                                        },
+                                      );
+                                    },
+                                    child: const Text("検索"),
+                                  ));
+                            } else {
+                              return const SizedBox();
+                            }
+                          })(),
                         ])),
                 Padding(
                     padding: const EdgeInsets.only(bottom: 15),
