@@ -42,10 +42,17 @@ class _SearchPageState extends State<SearchPage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text(
-                                  "以下の方法で書籍を共有することができます。",
-                                  style: textTheme.headline6,
-                                )
+                                RichText(
+                                    text: TextSpan(children: [
+                                  const WidgetSpan(
+                                      child: Icon(
+                                    Icons.ios_share,
+                                  )),
+                                  TextSpan(
+                                    text: "以下の方法で書籍を共有することができます。",
+                                    style: textTheme.headline6,
+                                  )
+                                ]))
                               ],
                             ))),
                     Padding(
@@ -217,24 +224,26 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                     SizedBox(
                         width: double.infinity,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Link(
-                                  uri: Uri.parse(
-                                      'https://books.sn-10.net/ja/help/find'),
-                                  target: LinkTarget.blank,
-                                  builder: ((context, followLink) =>
-                                      GestureDetector(
-                                        onTap: followLink,
-                                        child: const Text("書籍が見つからない場合...",
-                                            style: TextStyle(
-                                              color: Colors.black45,
-                                              decoration:
-                                                  TextDecoration.underline,
-                                            )),
-                                      )))
-                            ]))
+                        child: Link(
+                            uri: Uri.parse(
+                                'https://books.sn-10.net/ja/help/find'),
+                            target: LinkTarget.blank,
+                            builder: ((context, followLink) => GestureDetector(
+                                onTap: followLink,
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: const [
+                                      Icon(
+                                        Icons.help_outline,
+                                        color: Colors.black45,
+                                      ),
+                                      Text("書籍が見つからない場合...",
+                                          style: TextStyle(
+                                            color: Colors.black45,
+                                            decoration:
+                                                TextDecoration.underline,
+                                          ))
+                                    ])))))
                   ],
                 ))));
   }
