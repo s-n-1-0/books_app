@@ -22,7 +22,9 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          title: const Text("Share Books"),
+        ),
         resizeToAvoidBottomInset: true,
         body: Padding(
             padding:
