@@ -1,4 +1,7 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/link.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../utils/asin2isbn/url2.dart';
 import 'share_page.dart';
 import 'title_search_page.dart';
@@ -214,11 +217,21 @@ class _SearchPageState extends State<SearchPage> {
                         width: double.infinity,
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
-                            children: const [
-                              Text(
-                                "書籍が見つからない場合...",
-                                style: TextStyle(color: Colors.black45),
-                              )
+                            children: [
+                              Link(
+                                  uri: Uri.parse(
+                                      'https://books.sn-10.net/ja/help/find'),
+                                  target: LinkTarget.blank,
+                                  builder: ((context, followLink) =>
+                                      GestureDetector(
+                                        onTap: followLink,
+                                        child: const Text("書籍が見つからない場合...",
+                                            style: TextStyle(
+                                              color: Colors.black45,
+                                              decoration:
+                                                  TextDecoration.underline,
+                                            )),
+                                      )))
                             ]))
                   ],
                 ))));
