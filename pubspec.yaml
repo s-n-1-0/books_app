@@ -49,6 +49,7 @@ flutter_icons:
   android: true
   ios: true
   image_path: "assets/icon.png"
+  remove_alpha_ios: true
   adaptive_icon_foreground: "assets/icon_android.png"
   adaptive_icon_background: "#ffffff"
   # The "flutter_lints" package below contains a set of recommended lints to
