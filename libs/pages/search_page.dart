@@ -93,7 +93,7 @@ class _SearchPageState extends State<SearchPage> {
                                                     ),
                                                   ));
                                             },
-                                            child: const Text("検索"),
+                                            child: const Text("共有"),
                                           ));
                                     } else {
                                       return const SizedBox();
@@ -137,7 +137,7 @@ class _SearchPageState extends State<SearchPage> {
                                                                   title:
                                                                       editTitle))));
                                             },
-                                            child: const Text("検索"),
+                                            child: const Text("調べる"),
                                           ));
                                     } else {
                                       return const SizedBox();
@@ -200,7 +200,7 @@ class _SearchPageState extends State<SearchPage> {
                                                     ),
                                                   ));
                                             },
-                                            child: const Text("検索"),
+                                            child: const Text("共有"),
                                           ));
                                     } else {
                                       return const SizedBox();
