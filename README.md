@@ -2,7 +2,15 @@
 
 books
 
-## Getting Started
+## Setup
+
+1. set icon
+
+```
+flutter pub run flutter_launcher_icons:main
+```
+
+## Guide
 
 This project is a starting point for a Flutter application.
 
