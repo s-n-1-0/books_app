@@ -21,6 +21,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+
     return Scaffold(
         appBar: AppBar(
           title: const Text("Share Books"),
@@ -65,17 +66,15 @@ class _SearchPageState extends State<SearchPage> {
                                     "ISBNで共有",
                                     style: textTheme.subtitle1,
                                   ),
-                                  TextField(
-                                      keyboardType: TextInputType.number,
-                                      decoration: const InputDecoration(
-                                        hintText: "9784798056920",
-                                        isDense: true,
-                                      ),
-                                      onChanged: (text) {
-                                        setState(() {
-                                          editIsbn = text;
-                                        });
-                                      }),
+                                  _CustomTextField(
+                                    onChanged: (text) {
+                                      setState(() {
+                                        editIsbn = text;
+                                      });
+                                    },
+                                    hintText: "9784798056920",
+                                    keyboardType: TextInputType.number,
+                                  ),
                                   (() {
                                     if (editIsbn != "") {
                                       return Align(
@@ -109,16 +108,14 @@ class _SearchPageState extends State<SearchPage> {
                                     "タイトルで調べる",
                                     style: textTheme.subtitle1,
                                   ),
-                                  TextField(
-                                    decoration: const InputDecoration(
-                                      hintText: "この素晴らしい...",
-                                      isDense: true,
-                                    ),
+                                  _CustomTextField(
                                     onChanged: (text) => {
                                       setState(() {
                                         editTitle = text;
                                       })
                                     },
+                                    hintText: 'この素晴らしい...',
+                                    keyboardType: TextInputType.text,
                                   ),
                                   Text("タイトル検索で書籍が見つからない場合はISBN検索をお試しください。",
                                       style: textTheme.caption),
@@ -155,19 +152,15 @@ class _SearchPageState extends State<SearchPage> {
                                   ),
                                   Text("商品ページのURLを貼り付けてください。",
                                       style: textTheme.caption),
-                                  TextField(
-                                    keyboardType: TextInputType.url,
-                                    decoration: const InputDecoration(
+                                  _CustomTextField(
+                                      onChanged: (value) {
+                                        setState(() {
+                                          editAmazonUrl = value;
+                                        });
+                                      },
                                       hintText:
                                           "https://www.amazon.co.jp/dp/4088831209/...",
-                                      isDense: true,
-                                    ),
-                                    onChanged: (value) {
-                                      setState(() {
-                                        editAmazonUrl = value;
-                                      });
-                                    },
-                                  ),
+                                      keyboardType: TextInputType.url),
                                   (() {
                                     if (editAmazonUrl != "") {
                                       return Align(
@@ -254,5 +247,59 @@ class _SearchPageState extends State<SearchPage> {
                                             ])))))
                       ],
                     )))));
+  }
+}
+
+class _CustomTextField extends StatefulWidget {
+  const _CustomTextField(
+      {required this.onChanged,
+      required this.hintText,
+      required this.keyboardType});
+  final void Function(String) onChanged;
+  final String hintText;
+  final TextInputType keyboardType;
+  @override
+  State<_CustomTextField> createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<_CustomTextField> {
+  final TextEditingController _controller = TextEditingController();
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(children: [
+      Expanded(
+          //width: double.infinity,
+          child: TextField(
+        controller: _controller,
+        keyboardType: widget.keyboardType,
+        decoration: InputDecoration(
+          hintText: widget.hintText,
+          isDense: true,
+        ),
+        onChanged: (_) {
+          widget.onChanged(_controller.text);
+        },
+      )),
+      (() {
+        if (_controller.text != "") {
+          return GestureDetector(
+              onTap: () {
+                _controller.clear();
+                widget.onChanged(_controller.text);
+              },
+              child: const Icon(
+                Icons.close,
+                color: Colors.black45,
+              ));
+        }
+        return const SizedBox();
+      })(),
+    ]);
   }
 }
