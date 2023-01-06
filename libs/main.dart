@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'pages/search_page.dart';
+import 'pages/root_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +17,7 @@ class MyApp extends StatelessWidget {
         appBarTheme: const AppBarTheme(color: Color(0xff4d6a87)),
         primarySwatch: Colors.blue,
       ),
-      home: const SearchPage(),
+      home: const RootPage(),
     );
   }
 }
