@@ -1,7 +1,6 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:url_launcher/link.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../utils/asin2isbn/url2.dart';
 import 'share_page.dart';
 import 'title_search_page.dart';
@@ -21,7 +20,7 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-
+    final editIsbnKey = GlobalObjectKey<_CustomTextFieldState>(context);
     return Scaffold(
         appBar: AppBar(
           title: const Text("Share Books"),
@@ -67,6 +66,7 @@ class _SearchPageState extends State<SearchPage> {
                                     style: textTheme.subtitle1,
                                   ),
                                   _CustomTextField(
+                                    key: editIsbnKey,
                                     onChanged: (text) {
                                       setState(() {
                                         editIsbn = text;
@@ -75,6 +75,43 @@ class _SearchPageState extends State<SearchPage> {
                                     hintText: "9784798056920",
                                     keyboardType: TextInputType.number,
                                   ),
+                                  Align(
+                                      alignment: Alignment.topRight,
+                                      child: ElevatedButton(
+                                        onPressed: () async {
+                                          final barcode =
+                                              await FlutterBarcodeScanner
+                                                  .scanBarcode(
+                                                      "ff6666",
+                                                      "Cancel",
+                                                      false,
+                                                      ScanMode.BARCODE);
+                                          if (barcode.startsWith("978")) {
+                                            editIsbnKey.currentState!
+                                                .changeText(barcode);
+                                          } else {
+                                            showDialog(
+                                                context: context,
+                                                builder: (_) {
+                                                  return AlertDialog(
+                                                    title: Text(""),
+                                                    content: Text(
+                                                        "978から始まるバーコードのみ対応しています。"),
+                                                    actions: [
+                                                      TextButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child:
+                                                              const Text("OK"))
+                                                    ],
+                                                  );
+                                                });
+                                          }
+                                        },
+                                        child: const Text("Barcode"),
+                                      )),
                                   (() {
                                     if (editIsbn != "") {
                                       return Align(
@@ -252,9 +289,11 @@ class _SearchPageState extends State<SearchPage> {
 
 class _CustomTextField extends StatefulWidget {
   const _CustomTextField(
-      {required this.onChanged,
+      {Key? key,
+      required this.onChanged,
       required this.hintText,
-      required this.keyboardType});
+      required this.keyboardType})
+      : super(key: key);
   final void Function(String) onChanged;
   final String hintText;
   final TextInputType keyboardType;
@@ -264,6 +303,7 @@ class _CustomTextField extends StatefulWidget {
 
 class _CustomTextFieldState extends State<_CustomTextField> {
   final TextEditingController _controller = TextEditingController();
+
   @override
   void dispose() {
     _controller.dispose();
@@ -301,5 +341,10 @@ class _CustomTextFieldState extends State<_CustomTextField> {
         return const SizedBox();
       })(),
     ]);
+  }
+
+  void changeText(String newText) {
+    _controller.text = newText;
+    widget.onChanged(newText);
   }
 }
