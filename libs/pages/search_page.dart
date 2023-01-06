@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/link.dart';
 import '../utils/asin2isbn/url2.dart';
 import 'share_page.dart';
@@ -75,48 +76,52 @@ class _SearchPageState extends State<SearchPage> {
                                     hintText: "9784798056920",
                                     keyboardType: TextInputType.number,
                                   ),
-                                  Align(
-                                      alignment: Alignment.topRight,
-                                      child: ElevatedButton(
-                                        onPressed: () async {
-                                          final barcode =
-                                              await FlutterBarcodeScanner
-                                                  .scanBarcode(
-                                                      "ff6666",
-                                                      "Cancel",
-                                                      false,
-                                                      ScanMode.BARCODE);
-                                          if (barcode.startsWith("978")) {
-                                            editIsbnKey.currentState!
-                                                .changeText(barcode);
-                                          } else {
-                                            showDialog(
-                                                context: context,
-                                                builder: (_) {
-                                                  return AlertDialog(
-                                                    title: Text(""),
-                                                    content: Text(
-                                                        "978から始まるバーコードのみ対応しています。"),
-                                                    actions: [
-                                                      TextButton(
-                                                          onPressed: () {
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                          child:
-                                                              const Text("OK"))
-                                                    ],
-                                                  );
-                                                });
-                                          }
-                                        },
-                                        child: const Text("Barcode"),
-                                      )),
-                                  (() {
-                                    if (editIsbn != "") {
-                                      return Align(
-                                          alignment: Alignment.topRight,
-                                          child: ElevatedButton(
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Padding(
+                                          padding:
+                                              const EdgeInsets.only(right: 10),
+                                          child: OutlinedButton.icon(
+                                            onPressed: () async {
+                                              final barcode =
+                                                  await FlutterBarcodeScanner
+                                                      .scanBarcode(
+                                                          "ff6666",
+                                                          "Cancel",
+                                                          false,
+                                                          ScanMode.BARCODE);
+                                              if (barcode.startsWith("978")) {
+                                                editIsbnKey.currentState!
+                                                    .changeText(barcode);
+                                              } else {
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (_) {
+                                                      return AlertDialog(
+                                                        title: const Text(""),
+                                                        content: const Text(
+                                                            "978から始まるバーコードのみ対応しています。"),
+                                                        actions: [
+                                                          TextButton(
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              child: const Text(
+                                                                  "OK"))
+                                                        ],
+                                                      );
+                                                    });
+                                              }
+                                            },
+                                            icon: const FaIcon(
+                                                FontAwesomeIcons.barcode),
+                                            label: const Text("を読み取る"),
+                                          )),
+                                      (() {
+                                        if (editIsbn != "") {
+                                          return ElevatedButton(
                                             onPressed: () {
                                               Navigator.push(
                                                   context,
@@ -130,11 +135,13 @@ class _SearchPageState extends State<SearchPage> {
                                                   ));
                                             },
                                             child: const Text("共有"),
-                                          ));
-                                    } else {
-                                      return const SizedBox();
-                                    }
-                                  })(),
+                                          );
+                                        } else {
+                                          return const SizedBox();
+                                        }
+                                      })()
+                                    ],
+                                  ),
                                 ])),
                         Padding(
                             padding: const EdgeInsets.only(bottom: 15),
