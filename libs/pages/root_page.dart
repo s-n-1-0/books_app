@@ -33,13 +33,13 @@ class _RootPageState extends State<RootPage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.book),
             activeIcon: Icon(Icons.book_outlined),
-            label: '',
+            label: 'Share',
             backgroundColor: Colors.blue,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.info),
             activeIcon: Icon(Icons.info_outline),
-            label: '',
+            label: 'Info',
           )
         ],
         type: BottomNavigationBarType.fixed,
