@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../components/common_webview.dart';
+import '../utils/web.dart';
 
 class ShareBooksShareQuery {
   String isbn;
@@ -13,7 +14,7 @@ class ShareBooksShareQuery {
 
   ShareBooksShareQuery({required this.isbn, this.from = "", this.comment = ""});
 
-  final String _sharePageUrl = "https://books.sn-10.net/ja/share";
+  final String _sharePageUrl = "$webOrigin/ja/share";
   String getBookDataUrl() {
     var url = "$_sharePageUrl?noheader";
     url += "&isbn=${Uri.encodeFull(isbn)}";

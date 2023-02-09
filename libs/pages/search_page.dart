@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/link.dart';
 import '../components/search_blocks.dart';
+import '../utils/web.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
@@ -57,8 +58,7 @@ class SearchPage extends StatelessWidget {
                         SizedBox(
                             width: double.infinity,
                             child: Link(
-                                uri: Uri.parse(
-                                    'https://books.sn-10.net/ja/help/find'),
+                                uri: Uri.parse('$webOrigin/ja/help/find'),
                                 target: LinkTarget.blank,
                                 builder: ((context, followLink) =>
                                     GestureDetector(

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import '../components/common_webview.dart';
+import '../utils/web.dart';
 
 class ShareBooksSearchQuery {
   String title;
   ShareBooksSearchQuery({required this.title});
 
-  final String _sharePageUrl = "https://books.sn-10.net/app/search";
+  final String _sharePageUrl = "$webOrigin/app/search";
   String getBookDataUrl() {
     var url = "$_sharePageUrl?";
     url += "title=${Uri.encodeComponent(title)}}";
