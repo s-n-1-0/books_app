@@ -42,7 +42,7 @@ class _SearchIsbnBlockState extends State<SearchIsbnBlock> {
               child: OutlinedButton.icon(
                 onPressed: () async {
                   final barcode = await FlutterBarcodeScanner.scanBarcode(
-                      "ff6666", "Cancel", false, ScanMode.BARCODE);
+                      "#ff6666", "Cancel", false, ScanMode.BARCODE);
                   if (barcode.startsWith("978")) {
                     editIsbnKey.currentState!.changeText(barcode);
                   } else {
