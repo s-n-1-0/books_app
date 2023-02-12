@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -55,6 +56,21 @@ class CommonWebView extends StatelessWidget {
             }
           },
         );
+        controller.addJavaScriptHandler(
+            handlerName: "readClipboardText",
+            callback: (args) async {
+              return (await Clipboard.getData(Clipboard.kTextPlain))?.text ??
+                  "";
+            });
+        controller.addJavaScriptHandler(
+            handlerName: "writeClipboardText",
+            callback: (args) async {
+              final res = args.firstOrNull;
+              if (res != null && res["text"] != null) {
+                await Clipboard.setData(
+                    ClipboardData(text: res["text"] as String));
+              }
+            });
       },
     );
   }
