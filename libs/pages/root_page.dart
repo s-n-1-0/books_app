@@ -1,46 +1,87 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'info_page.dart';
 import 'list_page.dart';
 import 'search_page.dart';
 
-class RootPage extends StatefulWidget {
-  const RootPage({super.key});
-  @override
-  State<StatefulWidget> createState() => _RootPageState();
+enum TabItem {
+  share(
+    title: 'Share',
+    icon: Icons.book,
+    page: SearchPage(),
+  ),
+
+  list(
+    title: 'List',
+    icon: Icons.list,
+    page: ListPage(),
+  ),
+
+  info(
+    title: 'Info',
+    icon: Icons.info,
+    page: InfoPage(),
+  );
+
+  const TabItem({
+    required this.title,
+    required this.icon,
+    required this.page,
+  });
+  final String title;
+  final IconData icon;
+  final Widget page;
 }
 
-class _RootPageState extends State<RootPage> {
-  int _selectedIndex = 0;
-  final _pages = [const SearchPage(), const ListPage(), const InfoPage()];
+final _navigatorKeys = <TabItem, GlobalKey<NavigatorState>>{
+  TabItem.share: GlobalKey<NavigatorState>(),
+  TabItem.list: GlobalKey<NavigatorState>(),
+  TabItem.info: GlobalKey<NavigatorState>(),
+};
+
+class RootPage extends HookWidget {
+  const RootPage({super.key});
   @override
   Widget build(BuildContext context) {
+    final currentTab = useState(TabItem.share);
     return Scaffold(
-      body: _pages[_selectedIndex],
+      body: Stack(
+        children: TabItem.values
+            .map(
+              (tabItem) => Offstage(
+                offstage: currentTab.value != tabItem,
+                child: Navigator(
+                  key: _navigatorKeys[tabItem],
+                  onGenerateRoute: (settings) {
+                    return MaterialPageRoute<Widget>(
+                      builder: (context) => tabItem.page,
+                    );
+                  },
+                ),
+              ),
+            )
+            .toList(),
+      ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: (value) => setState(() {
-          _selectedIndex = value;
-        }),
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            activeIcon: Icon(Icons.book_outlined),
-            label: 'Share',
-            backgroundColor: Colors.blue,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            activeIcon: Icon(Icons.book_outlined),
-            label: 'List',
-            backgroundColor: Colors.blue,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.info),
-            activeIcon: Icon(Icons.info_outline),
-            label: 'Info',
-          )
-        ],
+        currentIndex: TabItem.values.indexOf(currentTab.value),
+        onTap: (index) {
+          final selectedTab = TabItem.values[index];
+          if (currentTab.value == selectedTab) {
+            _navigatorKeys[selectedTab]
+                ?.currentState
+                ?.popUntil((route) => route.isFirst);
+          } else {
+            currentTab.value = selectedTab;
+          }
+        },
+        items: TabItem.values
+            .map(
+              (tabItem) => BottomNavigationBarItem(
+                icon: Icon(tabItem.icon),
+                label: tabItem.title,
+              ),
+            )
+            .toList(),
         type: BottomNavigationBarType.fixed,
       ),
     );
