@@ -11,6 +11,6 @@ class ListPage extends StatelessWidget {
         appBar: AppBar(
           title: const Text("Share Books"),
         ),
-        body: const CommonWebView("$webOrigin/ja/share/list?noheader"));
+        body: const CommonWebView("$webOrigin/ja/share/list"));
   }
 }
