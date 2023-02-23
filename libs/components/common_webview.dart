@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -56,6 +57,34 @@ class CommonWebView extends StatelessWidget {
             }
           },
         );
+        controller.addJavaScriptHandler(
+            handlerName: "requestBarcodeReader",
+            callback: (args) async {
+              final barcode = await FlutterBarcodeScanner.scanBarcode(
+                  "#ff6666", "Cancel", false, ScanMode.BARCODE);
+              if (barcode.startsWith("978")) {
+                return barcode;
+              } else {
+                showDialog(
+                    context: context,
+                    builder: (_) {
+                      return AlertDialog(
+                        title: const Text(""),
+                        content: const Text("978から始まるバーコードのみ対応しています。"),
+                        actions: [
+                          Builder(builder: (context) {
+                            return TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text("OK"));
+                          })
+                        ],
+                      );
+                    });
+                return "";
+              }
+            });
         controller.addJavaScriptHandler(
             handlerName: "readClipboardText",
             callback: (args) async {
