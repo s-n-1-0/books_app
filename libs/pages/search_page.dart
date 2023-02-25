@@ -6,11 +6,6 @@ class SearchPage extends StatelessWidget {
   const SearchPage({super.key});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text("Share Books"),
-        ),
-        resizeToAvoidBottomInset: true,
-        body: const CommonWebView("$webOrigin/ja/share"));
+    return const CommonWebView("$webOrigin/ja/share");
   }
 }
