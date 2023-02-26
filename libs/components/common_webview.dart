@@ -84,6 +84,7 @@ class _CommonWebViewState extends State<CommonWebView> {
               child: InAppWebView(
             initialUrlRequest: URLRequest(url: Uri.parse(widget.url)),
             initialOptions: InAppWebViewGroupOptions(
+                crossPlatform: InAppWebViewOptions(supportZoom: false),
                 android: AndroidInAppWebViewOptions(
                     mixedContentMode:
                         AndroidMixedContentMode.MIXED_CONTENT_ALWAYS_ALLOW)),
