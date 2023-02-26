@@ -45,6 +45,7 @@ class _CommonWebViewState extends State<CommonWebView> {
                     urlRequest: URLRequest(url: Uri.parse(widget.url)));
               },
               child: const Text("Share Books")),
+          centerTitle: false,
           actions: [
             Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 15, 0),
