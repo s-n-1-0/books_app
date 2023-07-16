@@ -45,6 +45,7 @@ dependencies:
   app_review: ^2.1.1+1
   shared_preferences: ^2.0.15
   flutter_hooks: ^0.18.5+1
+  share_plus: ^7.0.2
 
 dev_dependencies:
   flutter_test:
