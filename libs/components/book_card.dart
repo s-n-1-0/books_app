@@ -2,18 +2,26 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/color.dart';
+import '../utils/web.dart';
 
-class BookCardData {
-  BookCardData(this.title, this.isbn, this.auther, this.coverUrl, this.infoUrl);
-  final String title, isbn, auther, coverUrl, infoUrl;
+class BookCardData extends BaseBookData {
+  BookCardData(
+      {required this.title,
+      required String isbn,
+      required this.author,
+      required this.coverUrl,
+      //以下二つはQR用URL生成に使用
+      String from = "",
+      String comment = ""})
+      : super(isbn: isbn, from: from, comment: comment);
+  final String title, author, coverUrl;
 }
 
 final sampleBookCardData = BookCardData(
-    "Docker&仮想サーバー完全入門　Webクリエイター＆エンジニアの作業がはかどる開発環境構築ガイド",
-    "9780123456789",
-    "オーキド",
-    "https://cover.openbd.jp/9784295015314.jpg",
-    "https://books.sn-10.net");
+    title: "Docker&仮想サーバー完全入門　Webクリエイター＆エンジニアの作業がはかどる開発環境構築ガイド",
+    isbn: "9780123456789",
+    author: "オーキド",
+    coverUrl: "https://cover.openbd.jp/9784295015314.jpg");
 
 class BookCard extends StatelessWidget {
   const BookCard(this.data, {super.key});
@@ -73,7 +81,7 @@ class BookCard extends StatelessWidget {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.end,
                                                 children: [
-                                                  Text(data.auther),
+                                                  Text(data.author),
                                                   Text(data.isbn)
                                                 ],
                                               )))
@@ -82,7 +90,7 @@ class BookCard extends StatelessWidget {
                         ],
                       ))))),
       QrImage(
-        data: data.infoUrl,
+        data: data.getBookDataUrl(),
         version: QrVersions.auto,
         size: 200.0,
         foregroundColor: CustomColors.app,

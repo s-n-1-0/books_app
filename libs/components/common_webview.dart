@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../pages/card_generation_page.dart';
 import '../utils/review_request.dart';
+import 'book_card.dart';
 
 void shareCount() async {
   const saveKey = "shareCount";
@@ -140,6 +143,33 @@ class _CommonWebViewState extends State<CommonWebView> {
                           });
                       return "";
                     }
+                  });
+              controller.addJavaScriptHandler(
+                  handlerName: "requestCardGeneration",
+                  callback: (args) {
+                    final bookData = args.firstOrNull;
+                    if (bookData != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CardGenerationPage(
+                                  bookData: BookCardData(
+                                      title: bookData["title"] ?? "",
+                                      author: bookData["author"] ?? "",
+                                      coverUrl: bookData["thumbnail"] ?? "",
+                                      isbn: bookData["isbn"] ?? "",
+                                      from: bookData["from"] ?? "",
+                                      comment: bookData["comment"] ?? ""),
+                                )),
+                      );
+                    }
+                  });
+              controller.addJavaScriptHandler(
+                  handlerName: "getAppBuildNumber",
+                  callback: (args) async {
+                    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+                    final buildStr = packageInfo.buildNumber;
+                    return int.parse(buildStr);
                   });
               controller.addJavaScriptHandler(
                   handlerName: "readClipboardText",
