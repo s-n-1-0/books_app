@@ -28,6 +28,8 @@ class BookCard extends StatelessWidget {
   final BookCardData data;
   @override
   Widget build(BuildContext context) {
+    double titleFontSizeFor2Lines = 50;
+    double titleFontSizeFor1Line = 75;
     return Stack(alignment: Alignment.bottomRight, children: [
       Container(
           alignment: Alignment.center,
@@ -66,12 +68,34 @@ class BookCard extends StatelessWidget {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
-                                      Text(
-                                        data.title,
-                                        style: const TextStyle(fontSize: 50),
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 2,
-                                      ),
+                                      LayoutBuilder(builder: (context, size) {
+                                        int maxLines = 2;
+                                        double fontSize =
+                                            titleFontSizeFor2Lines;
+                                        if (getTextLinesLength(
+                                                    data.title,
+                                                    TextStyle(
+                                                        fontSize: fontSize),
+                                                    maxLines,
+                                                    size.maxWidth) ==
+                                                1 &&
+                                            getTextLinesLength(
+                                                    data.title,
+                                                    TextStyle(
+                                                        fontSize:
+                                                            titleFontSizeFor1Line),
+                                                    maxLines,
+                                                    size.maxWidth) ==
+                                                1) {
+                                          fontSize = titleFontSizeFor1Line;
+                                        }
+                                        return Text(
+                                          data.title,
+                                          style: TextStyle(fontSize: fontSize),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: maxLines,
+                                        );
+                                      }),
                                       Padding(
                                           padding: const EdgeInsets.fromLTRB(
                                               0, 0, 100, 0),
@@ -97,5 +121,15 @@ class BookCard extends StatelessWidget {
         backgroundColor: Colors.white,
       )
     ]);
+  }
+
+  int getTextLinesLength(
+      String text, TextStyle style, int maxLines, double maxWidth) {
+    final tp = TextPainter(
+        text: TextSpan(text: text, style: style),
+        textDirection: TextDirection.ltr,
+        maxLines: maxLines);
+    tp.layout(maxWidth: maxWidth);
+    return tp.computeLineMetrics().length;
   }
 }
