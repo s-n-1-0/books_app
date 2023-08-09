@@ -1,4 +1,4 @@
-const webOrigin = "http://192.168.2.105:3000";
+const webOrigin = "https://books.sn-10.net";
 
 //共有に必要な最低限のBookData
 class BaseBookData {
