@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter/material.dart';
 
@@ -53,13 +54,15 @@ class BookCard extends StatelessWidget {
                       ),
                       child: Row(
                         children: [
-                          Padding(
-                              padding: const EdgeInsets.fromLTRB(50, 0, 25, 0),
-                              child: Image.network(
-                                data.coverUrl,
-                                fit: BoxFit.contain,
-                                height: 300,
-                              )),
+                          if (data.coverUrl != "")
+                            Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(50, 0, 25, 0),
+                                child: Image.network(
+                                  data.coverUrl,
+                                  fit: BoxFit.contain,
+                                  height: 300,
+                                )),
                           Flexible(
                               child: Padding(
                                   padding:

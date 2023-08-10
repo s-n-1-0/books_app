@@ -12,6 +12,12 @@ class CardGenerationPage extends StatefulWidget {
 }
 
 class _CardGenerationPageState extends State<CardGenerationPage> {
+  @override
+  void initState() {
+    super.initState();
+    makeImage(3);
+  }
+
   Uint8List? _bytes;
   @override
   Widget build(BuildContext context) {
@@ -19,40 +25,46 @@ class _CardGenerationPageState extends State<CardGenerationPage> {
         appBar: AppBar(),
         body: SingleChildScrollView(
             child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Row(
-              children: [
-                ElevatedButton(
-                  child: const Text('画像化'),
-                  onPressed: () async {
-                    _bytes = await BookCard(widget.bookData)
-                        .toImage(const Size(1200, 630));
-                    setState(() {});
-                  },
-                ),
-                FloatingActionButton(
-                  onPressed: () {
-                    if (_bytes != null) {
-                      Share.shareXFiles(
-                          [XFile.fromData(_bytes!, mimeType: 'image/png')]);
-                    }
-                  },
-                  child: Icon(Icons.save_alt),
-                  backgroundColor: Colors.red,
-                )
-              ],
-            ),
-            const Text("↓生成"),
             if (_bytes != null)
-              Container(
-                padding: const EdgeInsets.all(32),
-                width: double.infinity,
-                height: 500,
-                child: FittedBox(
-                    fit: BoxFit.contain,
-                    child: Image.memory(_bytes!.buffer.asUint8List())),
-              )
+              LayoutBuilder(builder: (context, size) {
+                return ConstrainedBox(
+                    constraints: const BoxConstraints(maxHeight: 500),
+                    child: Container(
+                      padding: const EdgeInsets.all(32),
+                      width: double.infinity,
+                      height: size.maxWidth / 1.775,
+                      child: FittedBox(
+                          fit: BoxFit.contain,
+                          child: Image.memory(_bytes!.buffer.asUint8List())),
+                    ));
+              }),
+            if (_bytes != null)
+              FloatingActionButton(
+                onPressed: () {
+                  if (_bytes != null) {
+                    Share.shareXFiles(
+                        [XFile.fromData(_bytes!, mimeType: 'image/png')]);
+                  }
+                },
+                child: const Icon(Icons.save_alt),
+                backgroundColor: Colors.red,
+              ),
+            const SizedBox(height: 35.0),
+            ElevatedButton(
+              child: const Text("画像を再生成"),
+              onPressed: () async {
+                makeImage(0);
+              },
+            )
           ],
         )));
+  }
+
+  void makeImage(int waitSeconds) async {
+    _bytes = await BookCard(widget.bookData)
+        .toImage(const Size(1200, 630), Duration(seconds: waitSeconds));
+    setState(() {});
   }
 }

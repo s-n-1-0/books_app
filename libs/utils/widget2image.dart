@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 extension ImageWidget on Widget {
-  Future<Uint8List?> toImage(Size imageSize) async {
+  Future<Uint8List?> toImage(Size imageSize, Duration? wait) async {
     final repaintBoundary = RenderRepaintBoundary();
     final renderView = RenderView(
       window: window,
@@ -32,7 +32,9 @@ extension ImageWidget on Widget {
           textDirection: TextDirection.ltr,
           child: this,
         )).attachToRenderTree(buildOwner);
-
+    if (wait != null) {
+      await Future.delayed(wait);
+    }
     buildOwner
       ..buildScope(rootElement)
       ..finalizeTree();
