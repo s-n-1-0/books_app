@@ -24,15 +24,15 @@ final sampleBookCardData = BookCardData(
     author: "オーキド",
     coverUrl: "https://cover.openbd.jp/9784295015314.jpg");
 
-//TODO: サムネイル無しレイアウトも考える必要がある。
 class BookCard extends StatelessWidget {
-  const BookCard(this.data, {super.key});
+  const BookCard(this.data, {super.key, required this.isThumbnail});
   final BookCardData data;
+  final bool isThumbnail;
   @override
   Widget build(BuildContext context) {
-    return data.coverUrl == ""
-        ? _buildWithNotThumbnail()
-        : _buildWithThumbnail();
+    return data.coverUrl != "" && isThumbnail
+        ? _buildWithThumbnail()
+        : _buildWithNotThumbnail();
   }
 
   Widget _buildWithThumbnail() {
