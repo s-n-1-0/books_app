@@ -24,12 +24,13 @@ final sampleBookCardData = BookCardData(
     author: "オーキド",
     coverUrl: "https://cover.openbd.jp/9784295015314.jpg");
 
+//TODO: サムネイル無しレイアウトも考える必要がある。
 class BookCard extends StatelessWidget {
   const BookCard(this.data, {super.key});
   final BookCardData data;
   @override
   Widget build(BuildContext context) {
-    double titleFontSizeFor2Lines = 50;
+    double titleFontSizeFor2Lines = 40;
     double titleFontSizeFor1Line = 75;
     return Stack(alignment: Alignment.bottomRight, children: [
       Container(
@@ -41,9 +42,9 @@ class BookCard extends StatelessWidget {
                 fit: BoxFit.fill,
               )),
           child: DefaultTextStyle(
-              style: const TextStyle(color: Colors.black, fontSize: 40),
+              style: const TextStyle(color: Colors.black, fontSize: 35),
               child: Padding(
-                  padding: const EdgeInsets.fromLTRB(75, 65, 75, 65),
+                  padding: const EdgeInsets.fromLTRB(55, 15, 55, 15),
                   child: Container(
                       height: double.infinity,
                       width: double.infinity,
@@ -57,63 +58,71 @@ class BookCard extends StatelessWidget {
                           if (data.coverUrl != "")
                             Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(50, 0, 25, 0),
+                                    const EdgeInsets.fromLTRB(50, 15, 25, 15),
                                 child: Image.network(
                                   data.coverUrl,
                                   fit: BoxFit.contain,
-                                  height: 300,
+                                  height: double.infinity,
                                 )),
                           Flexible(
-                              child: Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(0, 0, 50, 0),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      LayoutBuilder(builder: (context, size) {
-                                        int maxLines = 2;
-                                        double fontSize =
-                                            titleFontSizeFor2Lines;
-                                        if (getTextLinesLength(
-                                                    data.title,
-                                                    TextStyle(
-                                                        fontSize: fontSize),
-                                                    maxLines,
-                                                    size.maxWidth) ==
-                                                1 &&
-                                            getTextLinesLength(
-                                                    data.title,
-                                                    TextStyle(
-                                                        fontSize:
-                                                            titleFontSizeFor1Line),
-                                                    maxLines,
-                                                    size.maxWidth) ==
-                                                1) {
-                                          fontSize = titleFontSizeFor1Line;
-                                        }
-                                        return Text(
-                                          data.title,
-                                          style: TextStyle(fontSize: fontSize),
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: maxLines,
-                                        );
-                                      }),
-                                      Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              0, 0, 100, 0),
-                                          child: SizedBox(
-                                              width: double.infinity,
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.end,
-                                                children: [
-                                                  Text(data.author),
-                                                  Text(data.isbn)
-                                                ],
-                                              )))
-                                    ],
-                                  )))
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                const Spacer(),
+                                LayoutBuilder(builder: (context, size) {
+                                  int maxLines = 2;
+                                  double fontSize = titleFontSizeFor2Lines;
+                                  if (getTextLinesLength(
+                                              data.title,
+                                              TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: fontSize),
+                                              maxLines,
+                                              size.maxWidth) ==
+                                          1 &&
+                                      getTextLinesLength(
+                                              data.title,
+                                              TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize:
+                                                      titleFontSizeFor1Line),
+                                              maxLines,
+                                              size.maxWidth) ==
+                                          1) {
+                                    fontSize = titleFontSizeFor1Line;
+                                  }
+                                  return Text(
+                                    data.title,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: fontSize),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: maxLines,
+                                  );
+                                }),
+                                Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        10, 0, 100, 0),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          data.author,
+                                          textAlign: TextAlign.start,
+                                        ),
+                                      ],
+                                    )),
+                                const Spacer(),
+                                Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        10, 0, 150, 0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(data.isbn,
+                                            textAlign: TextAlign.right)
+                                      ],
+                                    ))
+                              ]))
                         ],
                       ))))),
       QrImage(
