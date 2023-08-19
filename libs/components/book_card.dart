@@ -30,6 +30,12 @@ class BookCard extends StatelessWidget {
   final BookCardData data;
   @override
   Widget build(BuildContext context) {
+    return data.coverUrl == ""
+        ? _buildWithNotThumbnail()
+        : _buildWithThumbnail();
+  }
+
+  Widget _buildWithThumbnail() {
     double titleFontSizeFor2Lines = 40;
     double titleFontSizeFor1Line = 75;
     return Stack(alignment: Alignment.bottomRight, children: [
@@ -44,21 +50,21 @@ class BookCard extends StatelessWidget {
           child: DefaultTextStyle(
               style: const TextStyle(color: Colors.black, fontSize: 35),
               child: Padding(
-                  padding: const EdgeInsets.fromLTRB(55, 15, 55, 15),
+                  padding: const EdgeInsets.fromLTRB(35, 15, 35, 15),
                   child: Container(
                       height: double.infinity,
                       width: double.infinity,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(5),
                       ),
                       child: Row(
                         children: [
                           if (data.coverUrl != "")
                             Padding(
                                 padding:
-                                    const EdgeInsets.fromLTRB(50, 15, 25, 15),
+                                    const EdgeInsets.fromLTRB(50, 15, 50, 15),
                                 child: Image.network(
                                   data.coverUrl,
                                   fit: BoxFit.contain,
@@ -114,7 +120,7 @@ class BookCard extends StatelessWidget {
                                 const Spacer(),
                                 Padding(
                                     padding: const EdgeInsets.fromLTRB(
-                                        10, 0, 150, 0),
+                                        10, 0, 175, 0),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
@@ -133,6 +139,105 @@ class BookCard extends StatelessWidget {
         backgroundColor: Colors.white,
       )
     ]);
+  }
+
+  Widget _buildWithNotThumbnail() {
+    double titleFontSizeFor2Lines = 40;
+    double titleFontSizeFor1Line = 75;
+    return Container(
+        alignment: Alignment.center,
+        child: DefaultTextStyle(
+            style: const TextStyle(color: Colors.black, fontSize: 35),
+            child: LayoutBuilder(builder: (context, size) {
+              return Stack(children: [
+                Positioned(
+                  left: -size.maxWidth / 3 + 150,
+                  child: Image(image: AssetImage("assets/mid_card_bg.png")),
+                ),
+                Row(children: [
+                  SizedBox(
+                      width: size.maxWidth / 2,
+                      child: Center(
+                          child: QrImage(
+                        data: data.getBookDataUrl(),
+                        version: QrVersions.auto,
+                        size: size.maxWidth / 3,
+                        foregroundColor: CustomColors.app,
+                        backgroundColor: Colors.white,
+                      ))),
+                  Container(
+                      height: double.infinity,
+                      width: size.maxWidth / 2,
+                      alignment: Alignment.center,
+                      decoration: const BoxDecoration(
+                          color: Color.fromARGB(255, 250, 250, 250)),
+                      child: Row(
+                        children: [
+                          Flexible(
+                              child: Padding(
+                                  padding: const EdgeInsets.all(30),
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const Spacer(),
+                                        LayoutBuilder(builder: (context, size) {
+                                          int maxLines = 2;
+                                          double fontSize =
+                                              titleFontSizeFor2Lines;
+                                          if (getTextLinesLength(
+                                                      data.title,
+                                                      TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: fontSize),
+                                                      maxLines,
+                                                      size.maxWidth) ==
+                                                  1 &&
+                                              getTextLinesLength(
+                                                      data.title,
+                                                      TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize:
+                                                              titleFontSizeFor1Line),
+                                                      maxLines,
+                                                      size.maxWidth) ==
+                                                  1) {
+                                            fontSize = titleFontSizeFor1Line;
+                                          }
+                                          return Text(
+                                            data.title,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: fontSize),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: maxLines,
+                                          );
+                                        }),
+                                        Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                10, 0, 100, 0),
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  data.author,
+                                                  textAlign: TextAlign.start,
+                                                ),
+                                              ],
+                                            )),
+                                        const Spacer(),
+                                        SizedBox(
+                                          width: double.infinity,
+                                          child: Text(data.isbn,
+                                              textAlign: TextAlign.right),
+                                        )
+                                      ])))
+                        ],
+                      ))
+                ])
+              ]);
+            })));
   }
 
   int getTextLinesLength(
