@@ -28,6 +28,8 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>書籍バーコードを読み取るためには許可が必要です。</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+    <string>写真ライブラリに作成した画像を保存するためには許可が必要です。</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
