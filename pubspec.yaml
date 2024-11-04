@@ -42,7 +42,6 @@ dependencies:
   flutter_barcode_scanner: ^2.0.0
   font_awesome_flutter: ^10.3.0
   package_info_plus: ^8.1.0
-  app_review: ^2.1.1+1
   shared_preferences: ^2.0.15
   flutter_hooks: ^0.20.5
   share_plus: ^10.1.1

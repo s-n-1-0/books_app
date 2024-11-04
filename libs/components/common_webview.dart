@@ -8,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../pages/card_generation_page.dart';
-import '../utils/review_request.dart';
 import 'book_card.dart';
 
 void shareCount() async {
@@ -22,7 +21,8 @@ void shareCount() async {
     case 2:
     case 7:
     case 15:
-      requestReview();
+      // NOTE: レビューライブラリが古い＆レビュー依頼できる品質ではないので、一時的にレビュー機能を停止している。
+      // requestReview();
       break;
   }
 }
