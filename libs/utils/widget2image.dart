@@ -17,6 +17,8 @@ extension ImageWidget on Widget {
       configuration: ViewConfiguration(
         physicalConstraints: BoxConstraints(
             maxHeight: imageSize.height, maxWidth: imageSize.width),
+        logicalConstraints: BoxConstraints(
+            maxHeight: imageSize.height, maxWidth: imageSize.width),
         devicePixelRatio: 1,
       ),
     );
