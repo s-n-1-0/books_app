@@ -45,7 +45,7 @@ class _CommonWebViewState extends State<CommonWebView> {
           title: GestureDetector(
               onTap: () {
                 _webViewController?.loadUrl(
-                    urlRequest: URLRequest(url: Uri.parse(widget.url)));
+                    urlRequest: URLRequest(url: WebUri(widget.url)));
               },
               child: const Text("Share Books")),
           centerTitle: false,
@@ -86,7 +86,7 @@ class _CommonWebViewState extends State<CommonWebView> {
         body: Column(children: [
           Expanded(
               child: InAppWebView(
-            initialUrlRequest: URLRequest(url: Uri.parse(widget.url)),
+            initialUrlRequest: URLRequest(url: WebUri(widget.url)),
             initialOptions: InAppWebViewGroupOptions(
                 crossPlatform: InAppWebViewOptions(supportZoom: false),
                 android: AndroidInAppWebViewOptions(

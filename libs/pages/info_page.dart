@@ -38,7 +38,7 @@ class _InfoPageState extends State<StatefulWidget> {
               child: Column(children: [
                 Text(
                   "要望や不具合報告はこちらへ",
-                  style: textTheme.caption,
+                  style: textTheme.bodySmall,
                 ),
                 Link(
                     uri: Uri.parse('https://forms.gle/UnceoUa8S38SU6Zq9'),

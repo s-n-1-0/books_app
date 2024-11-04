@@ -131,7 +131,7 @@ class BookCard extends StatelessWidget {
                               ]))
                         ],
                       ))))),
-      QrImage(
+      QrImageView(
         data: data.getBookDataUrl(),
         version: QrVersions.auto,
         size: 200.0,
@@ -158,7 +158,7 @@ class BookCard extends StatelessWidget {
                   SizedBox(
                       width: size.maxWidth / 2,
                       child: Center(
-                          child: QrImage(
+                          child: QrImageView(
                         data: data.getBookDataUrl(),
                         version: QrVersions.auto,
                         size: size.maxWidth / 3,

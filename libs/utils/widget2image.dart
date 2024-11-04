@@ -11,11 +11,12 @@ extension ImageWidget on Widget {
   Future<Uint8List?> toImage(Size imageSize, Duration? wait) async {
     final repaintBoundary = RenderRepaintBoundary();
     final renderView = RenderView(
-      window: window,
+      view: window,
       child: RenderPositionedBox(
           alignment: Alignment.center, child: repaintBoundary),
       configuration: ViewConfiguration(
-        size: imageSize,
+        physicalConstraints: BoxConstraints(
+            maxHeight: imageSize.height, maxWidth: imageSize.width),
         devicePixelRatio: 1,
       ),
     );
