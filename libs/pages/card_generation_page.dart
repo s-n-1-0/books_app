@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 import 'package:share_plus/share_plus.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:flutter/material.dart';
 import '../components/book_card.dart';
 import '../components/elevated_gradation_Button.dart';
@@ -76,11 +75,13 @@ class _CardGenerationPageState extends State<CardGenerationPage> {
       ElevatedGradationButton(
           onPressed: () async {
             //ダブルクリック防止
-            if (_bytes != null && saveStatus != ProcessingStatus.processing) {
+            if (false &&
+                _bytes != null &&
+                saveStatus != ProcessingStatus.processing) {
               setState(() {
                 saveStatus = ProcessingStatus.processing;
               });
-              await ImageGallerySaver.saveImage(_bytes!);
+              // await ImageGallerySaver.saveImage(_bytes!);
               setState(() {
                 saveStatus = ProcessingStatus.processed;
               });
